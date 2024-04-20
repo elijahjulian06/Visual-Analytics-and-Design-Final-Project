@@ -6,8 +6,6 @@
  * 
  */
 
-const { listeners } = require("process");
-
 class LineGraph{
 
     constructor(con, data, root) {
@@ -25,6 +23,9 @@ class LineGraph{
             .style('height', '100%');
 
         this.svg = div.append('svg');
+
+        const domain = ['2020', '2021', '2022', '2023'];
+        
   
         //define x and y
         //define line 

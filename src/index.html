@@ -21,12 +21,12 @@
 
     
     <script>
-        console.log('hi')
          fetch("/start")   
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                new Control(data);
+                console.log(data.csv1);
+                console.log(data.csv2)
+                new Control(data.csv1, data.csv2);
          });
 
     </script>
