@@ -44,9 +44,8 @@ class LineGraph {
                 .attr("d", d => line(Object.values(d).slice(0, 4)))
                 .attr("fill", "none")
                 .style("stroke", d => color(d['job_title']))
-                .on("mouseover",)
-                .on("mouseout",)
-    }
-
+                .on("mouseover",) //dont know to implement yet
+                .on("mouseout",) //dont know how to implement yet
+        }
     
 }
