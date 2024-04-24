@@ -35,8 +35,6 @@ class LineGraph {
                 .x((d, i) => x(x.domain()[i])) 
                 .y((d, i) => y[x.domain()[i]](d));
 
-  
-                  
             const lines = this.svg.selectAll(".line")
                 .data(data)
                 .enter().append("path")
@@ -44,8 +42,19 @@ class LineGraph {
                 .attr("d", d => line(Object.values(d).slice(0, 4)))
                 .attr("fill", "none")
                 .style("stroke", d => color(d['job_title']))
-                .on("mouseover",) //dont know to implement yet
-                .on("mouseout",) //dont know how to implement yet
+                //.on("mouseover",) //dont know to implement yet
+
+               // .on("mouseout",) //dont know how to implement yet
+
+            div.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", width)
+                .attr("y", height)
+                .text("Salary Over Time for Computer Science jobs");
+
         }
+        
+        //need to add x and y labels to graph
     
 }
