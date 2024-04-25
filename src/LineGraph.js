@@ -38,20 +38,26 @@ class LineGraph {
             const lines = this.svg.selectAll(".line")
                 .data(data)
                 .enter().append("path")
-                .attr("class", "line")
+                .attr("class", function (d) {return d.job_title})
                 .attr("d", d => line(Object.values(d).slice(0, 4)))
                 .attr("fill", "none")
                 .style("stroke", d => color(d['job_title']))
-                //.on("mouseover",) //dont know to implement yet
-
-               // .on("mouseout",) //dont know how to implement yet
+                .on("mouseover", function(d) {
+                    const job_title = d3.select(this).attr("class");
+                    setTimeout(() => {
+                        con.Opt(job_title);
+                    }, 10);
+                })
+                .on("mouseout", function(e) {
+                    con.Opt(' ');
+                });
 
             div.append("text")
                 .attr("class", "x label")
                 .attr("text-anchor", "end")
                 .attr("x", width)
                 .attr("y", height)
-                .text("Salary Over Time for Computer Science jobs");
+                .text("Salary Over Time For Computer Science jobs");
 
         }
         

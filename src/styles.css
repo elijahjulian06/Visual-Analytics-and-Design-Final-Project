@@ -1,6 +1,7 @@
 .container {
     display: flex;
     height: 100vh;
+    justify-content: space-between; /* Ensures space between items, pushing the button bar to the far right */
 }
 
 .map-container {
@@ -9,9 +10,19 @@
 }
 
 .map-container svg {
-    position: absolute; 
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+.textbox {
+    position: absolute;
+    top: 50px; 
+    right: 20px; 
+    width: 200px; 
+    padding: 10px;
+    background-color: rgb(254, 221, 221);
+    border: 1px solid #cecccc;
 }

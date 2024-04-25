@@ -1,7 +1,8 @@
 class Control {
     constructor(csv1, csv2) {
-
+      
         const mapBar = d3.select('.map-container');
+        const textBox = d3.select('.textbox')
 
         const color = d3.scaleOrdinal()
         .domain([
@@ -260,14 +261,15 @@ class Control {
           "#d7b9e9"])  
 
         this.LineGraph = new LineGraph(this, csv2, mapBar, color);
-    }
+        this.DisplayName = new DisplayName(this, textBox);
+     }
 
     Test(str) {
         console.log(str);
     }
 
-    Opt() {
-
+    Opt(job_title) {
+        this.DisplayName.updateText(job_title);
     }
 
     
