@@ -1,7 +1,7 @@
 .container {
     display: flex;
     height: 100vh;
-    justify-content: space-between; /* Ensures space between items, pushing the button bar to the far right */
+    justify-content: space-between;
 }
 
 .map-container {
