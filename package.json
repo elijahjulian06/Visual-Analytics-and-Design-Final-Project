@@ -2,6 +2,7 @@
   "dependencies": {
     "csvtojson": "^2.0.10",
     "express": "^4.19.2",
+    "http-server": "^14.1.1",
     "node": "^18.20.2"
   }
 }

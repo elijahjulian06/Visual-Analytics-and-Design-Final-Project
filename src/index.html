@@ -12,26 +12,33 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="Control.js"></script>
     <script src='LineGraph.js'></script>
-    <script src= 'DisplayName.js'></script>
+    <script src='BarChart.js'></script>
+    <script src='DisplayName.js'></script>
 </head>
 
 <body>
     <div class="container">
         <div id="map-container" class="map-container"></div>
+        <div id="bar-chart-container" class="bar-chart-container"></div>
         <div class="textbox" id="textbox"></div>
     </div>
 
-    
     <script>
-         fetch("/start")   
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.csv1);
-                console.log(data.csv2);
-                new Control(data.csv1, data.csv2);
-         });
-
+        fetch("/start")   
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.csv1);
+            console.log(data.csv2);
+            new Control(data.csv1, data.csv2);
+            // Create an instance of BarChart and call its draw() method
+            const barChart = new BarChart("#bar-chart-container", data.csv1); // Use csv1 instead of csv2
+            barChart.draw();
+        });
     </script>
 </body>
 
 </html>
+
+
+
+
