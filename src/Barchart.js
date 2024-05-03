@@ -109,5 +109,5 @@ class BarChart {
             .text("Annual Salary for Job Type Based on Experience");
     }
 }
-const myChart = new BarChart("#svgContainer", yourDataArray);
-myChart.draw();
+//const myChart = new BarChart("#svgContainer", yourDataArray);
+//myChart.draw();

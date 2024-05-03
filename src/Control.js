@@ -263,6 +263,7 @@ class Control {
       this.LineGraph = new LineGraph(this, csv2, mapBar, color);
       this.BarChart = new BarChart('.bar-chart-container', csv1);
       this.DisplayName = new DisplayName(this, textBox);
+
    }
 
   Test(str) {

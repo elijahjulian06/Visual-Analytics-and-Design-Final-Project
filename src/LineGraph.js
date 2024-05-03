@@ -52,14 +52,15 @@ class LineGraph {
                     con.Opt(' ');
                 });
 
-            div.append("text")
+            /**div.append("text")
                 .attr("class", "x label")
                 .attr("text-anchor", "end")
                 .attr("x", width)
                 .attr("y", height)
-                .text("Salary Over Time For Computer Science jobs");
+                .text("Salary Over Time For Computer Science jobs");**/
+            }
 
-        }
+
         
         //need to add x and y labels to graph
     
