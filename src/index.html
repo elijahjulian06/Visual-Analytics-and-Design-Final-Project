@@ -1,115 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Analytics Final Project</title>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Visual Analytics Final Project</title>
 
-    <link rel="stylesheet" href="styles.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script src="Control.js"></script>
-    <script src='LineGraph.js'></script>
-    <script src='BarChart.js'></script>
-    <script src='DisplayName.js'></script>
+   <link rel="stylesheet" href="styles.css">
+
+
+   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+   <script src="Control.js"></script>
+   <script src='LineGraph.js'></script>
+   <script src='BarChart.js'></script>
+   <script src='DisplayName.js'></script>
 </head>
 
+
 <body>
-    <div id="map-container" class="map-container"></div>
-    <div class="textbox" id="textbox"></div>
-    <div id="bar-chart-container" class="bar-chart-container"></div>
-    <svg width="960" height="600"></svg>
-    <div id="tooltip"
-        style="position: flex; display: none; background-color: rgba(255, 255, 255, 0.8); padding: 5px; border: 1px solid black;">
-    </div>
 
-    <script>
-        
-        Promise.all([
-            d3.csv("jobs_in_data.csv"), // Load CSV file
-            d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson') // Load GeoJSON
-        ]).then(([data, topo]) => {
-            console.log(data); // Log CSV data to console for debugging
-
-            // Data processing
-            const arrCountries = Array.from(new Set(data.map(d => d.company_location)));
-            const objSalary = arrCountries.reduce((acc, crr) => ({ ...acc, [crr]: d3.mean(data.filter(d => d.company_location === crr), x => +x.salary) }), {});
-
-            // Render map
-            const svg = d3.select('svg');
-            const width = 960, height = 600;
-
-            const projection = d3.geoMercator()
-                .scale(100)
-                .center([0, 20])
-                .translate([width / 2, height / 2]);
-
-            const colorScale = d3.scaleSequential(d3.interpolateBlues)
-                .domain(d3.extent(Object.values(objSalary)));
+   <div id="bar-chart-container" class="bar-chart-container"></div>
+   <svg width="960" height="600"></svg>
+   
+   <div id="tooltip"
+       style="padding-bottom: 100px; position: flex; display: none; background-color: rgba(255, 255, 255, 0.8); padding: 5px; border: 1px solid black;">
+   </div>
+   <div id="map-container" class="map-container"></div>
+   <div class="textbox" id="textbox"></div>
 
 
-            // Append map elements
-            svg.append('g')
-                .selectAll('path')
-                .data(topo.features)
-                .join('path')
-                .attr('class', 'country')
-                .attr('d', d3.geoPath().projection(projection))
-                .attr('fill', d => {
-                    if (d.properties.name === 'USA') {
-                        return colorScale(objSalary['United States']);
-                    } else {
-                        return d.properties.name in objSalary ? colorScale(objSalary[d.properties.name]) : 'transparent'
-                    }
-                })
-                .attr('opacity', 0.8)
-                .attr('stroke', 'none')
-                .on('mouseover', function (e, d) {
-                    const countryName = d.properties.name === 'USA'?'United States': d.properties.name;
-                    
-                    
-                    const countryData = data.filter(item => item.company_location === countryName);
-                    if (countryData.length > 0) {
-                        // Display information on mouse hover
-                        const tooltip = document.getElementById('tooltip');
-                        tooltip.innerHTML = `<strong>Country:</strong> ${countryName}<br><strong>Salary:</strong> ${d3.mean(countryData, x => +x.salary).toFixed(2)}<br><strong>Currency:</strong> ${countryData[0].salary_currency}<br><strong>Salary in USD:</strong> ${d3.mean(countryData, x => +x.salary_in_usd).toFixed(2)}`;
-                        tooltip.style.left = `${e.pageX}px`;
-                        tooltip.style.top = `${e.pageY}px`;
-                        tooltip.style.display = 'block';
-                    }
-                    d3.select(this)
-                        .attr('opacity', 1)
-                        .attr('stroke', 'black');
-                })
-                .on('mouseout', function (e, d) {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.style.display = 'none';
-                    d3.select(this)
-                        .attr('opacity', 0.8)
-                        .attr('stroke', 'none');
-                });
-         });
+   <script>
+      
+       Promise.all([
+           d3.csv("jobs_in_data.csv"), // Load CSV file
+           d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson') // Load GeoJSON
+       ]).then(([data, topo]) => {
+           console.log(data); // Log CSV data to console for debugging
+
+
+           // Data processing
+           const arrCountries = Array.from(new Set(data.map(d => d.company_location)));
+           const objSalary = arrCountries.reduce((acc, crr) => ({ ...acc, [crr]: d3.mean(data.filter(d => d.company_location === crr), x => +x.salary) }), {});
+
+
+           // Render map
+           const svg = d3.select('svg');
+           const width = 960, height = 600;
+
+
+           const projection = d3.geoMercator()
+               .scale(100)
+               .center([0, 20])
+               .translate([width / 2, height / 2]);
+
+
+           const colorScale = d3.scaleSequential(d3.interpolateBlues)
+               .domain(d3.extent(Object.values(objSalary)));
 
 
 
 
-
-        fetch("/start")   
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.csv1);
-            console.log(data.csv2);
-            new Control(data.csv1, data.csv2);
-            // Create an instance of BarChart and call its draw() method
-            const barChart = new BarChart("#bar-chart-container", data.csv1); // Use csv1 instead of csv2
-            barChart.draw();
+           // Append map elements
+           svg.append('g')
+               .selectAll('path')
+               .data(topo.features)
+               .join('path')
+               .attr('class', 'country')
+               .attr('d', d3.geoPath().projection(projection))
+               .attr('fill', d => {
+                   if (d.properties.name === 'USA') {
+                       return colorScale(objSalary['United States']);
+                   } else {
+                       return d.properties.name in objSalary ? colorScale(objSalary[d.properties.name]) : 'transparent'
+                   }
+               })
+               .attr('opacity', 0.8)
+               .attr('stroke', 'none')
+               .on('mouseover', function (e, d) {
+                   const countryName = d.properties.name === 'USA'?'United States': d.properties.name;
+                  
+                  
+                   const countryData = data.filter(item => item.company_location === countryName);
+                   if (countryData.length > 0) {
+                       // Display information on mouse hover
+                       const tooltip = document.getElementById('tooltip');
+                       tooltip.innerHTML = `<strong>Country:</strong> ${countryName}<br><strong>Salary:</strong> ${d3.mean(countryData, x => +x.salary).toFixed(2)}<br><strong>Currency:</strong> ${countryData[0].salary_currency}<br><strong>Salary in USD:</strong> ${d3.mean(countryData, x => +x.salary_in_usd).toFixed(2)}`;
+                       tooltip.style.left = `${e.pageX}px`;
+                       tooltip.style.top = `${e.pageY}px`;
+                       tooltip.style.display = 'block';
+                   }
+                   d3.select(this)
+                       .attr('opacity', 1)
+                       .attr('stroke', 'black');
+               })
+               .on('mouseout', function (e, d) {
+                   const tooltip = document.getElementById('tooltip');
+                   tooltip.style.display = 'none';
+                   d3.select(this)
+                       .attr('opacity', 0.8)
+                       .attr('stroke', 'none');
+               });
         });
-    </script>
+
+
+
+
+
+
+
+
+
+
+       fetch("/start")  
+       .then(response => response.json())
+       .then(data => {
+           console.log(data.csv1);
+           console.log(data.csv2);
+           new Control(data.csv1, data.csv2);
+           // Create an instance of BarChart and call its draw() method
+           const barChart = new BarChart("#bar-chart-container", data.csv1); // Use csv1 instead of csv2
+           barChart.draw();
+       });
+   </script>
 </body>
 
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

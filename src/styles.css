@@ -14,6 +14,7 @@
     height: 500px; 
     padding-top: 50px;
     padding-bottom: 50px;
+    padding-left: 100px;
 
 }
 
@@ -30,9 +31,11 @@
 
 .textbox {
     width: 200px; 
+    height: 25px;
     padding: 10px;
     background-color: rgb(255, 255, 255);
     border: 1px solid #928d8d;
+    font-size: 15px;
 
 }
 
